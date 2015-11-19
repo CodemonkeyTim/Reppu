@@ -1,19 +1,76 @@
-﻿<!DOCTYPE html lang="en">
+﻿	<!DOCTYPE html lang="en">
 <html>
 	<head>
 		<title>Reppu app</title>
+		<script src="js/utils.js"></script>
 		<script src="js/lib/jquery-1.11.3.min.js"></script>
-	</head>
-	<body>
-		<h1>Hellou wööld</h1>
+		<script src="js/lib/bootstrap-3.3.5.min.js"></script>
 		
-		<div id="reppu-container">
+		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap/bootstrap-theme.min.css" />
+	</head>
+	<body style="padding-top: 20px;">
+		<div id="page-container" class="container-fluid">
+			<div class="row" id="login-container">
+				<div class="col-lg-4 col-lg-offset-4">
+					<h1 class="text-center">Login</h1>
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<input class="form-control" id="username-field" type="text" placeholder="Username" />
+						</div>
+					</div>
+					
+					<br/>
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<input class="form-control" id="password-field" type="password" placeholder="Password" />
+						</div>
+					</div>
+					
+					<br />
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<button class="btn btn-lg btn-success btn-block">Login</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+		<div id="reppu-data-container">
 			
 		</div>
 	</body>
 </html>
 
 <script>
-	$.support.cors = true;
-	$("#reppu-container").load("http://reppu.lamk.fi");
+	$(document).ready(function () {
+		if (getUser() == undefined) {
+			$("#login-container").fadeIn();
+		} else {
+			var fd = new FormData();
+			fd.append('username', getUser().username);
+			fd.append('password', getUser().password);
+
+			$.ajax({
+				url: 'https://reppu.lamk.fi/login/index.php',
+				data: fd,
+				processData: false,
+				contentType: false,
+				type: 'POST',
+				success: function(data) {
+					$("#reppu-container").load("http://reppu.lamk.fi");
+				}
+			});
+		}
+	});
 </script>
+
+<style>
+	#login-container {
+		display: none;
+	}
+</style>
