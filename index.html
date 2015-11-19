@@ -10,8 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap/bootstrap-theme.min.css" />
 	</head>
 	<body style="padding-top: 20px;">
-		<div id="page-container" class="container-fluid">
-			<div class="row" id="login-container">
+		<div id="login-container" class="container-fluid">
+			<div class="row">
 				<div class="col-lg-4 col-lg-offset-4">
 					<h1 class="text-center">Login</h1>
 					
@@ -39,6 +39,23 @@
 				</div>
 			</div>
 		</div>
+		
+		<div id="app-container" class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="text-center">ReppuApp</h1>
+				</div>
+			</div>
+			
+			<!-- Course list -->
+			<div class="row">
+				<div class="col-lg-12">
+					<ul id="course-list">
+					
+					</ul>
+				</div>
+			</div>
+		</div>
 			
 		<div id="reppu-data-container">
 			
@@ -51,7 +68,7 @@
 		if (getUser() == undefined) {
 			$("#login-container").fadeIn();
 		} else {
-			loadMainPage();
+			doLogin(startApp);
 		}
 		
 		$("#login-btn").click(function () {
@@ -62,11 +79,11 @@
 			
 			saveUser(user);
 			
-			loadMainPage();
+			doLogin(startApp);
 		});
 	});
 	
-	function loadMainPage() {
+	function doLogin(callback) {
 		var fd = new FormData();
 		fd.append('username', getUser().username);
 		fd.append('password', getUser().password);
@@ -78,14 +95,30 @@
 			contentType: false,
 			type: 'POST',
 			success: function(data) {
-				$("#reppu-data-container").load("http://reppu.lamk.fi");
+				if (typeof (callback) == "function") {
+					callback();
+				}
 			}
+		});
+	}
+	
+	function startApp() {
+		$("#reppu-data-container").load("http://reppu.lamk.fi");
+		
+		$("app-container").fadeIn();
+		
+		addCoursesList();
+	}
+	
+	function addCoursesList() {
+		$("#reppu-data-container").find(".block_course_list li a").each(function (index, item) {
+			$("#course-list").append("<li>" + $(item).text()  + "</li>")
 		});
 	}
 </script>
 
 <style>
-	#login-container {
+	#login-container, #app-container, #reppu-data-container {
 		display: none;
 	}
 </style>
