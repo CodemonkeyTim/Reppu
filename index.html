@@ -105,12 +105,14 @@
 	function startApp() {
 		$("#reppu-data-container").load("http://reppu.lamk.fi");
 		
-		$("app-container").fadeIn();
+		$("#app-container").fadeIn();
 		
 		addCoursesList();
 	}
 	
 	function addCoursesList() {
+		$("#course-list").html("");
+		
 		$("#reppu-data-container").find(".block_course_list li a").each(function (index, item) {
 			$("#course-list").append("<li>" + $(item).text()  + "</li>")
 		});
