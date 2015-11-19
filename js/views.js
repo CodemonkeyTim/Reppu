@@ -63,7 +63,17 @@ function CourseView (params) {
 			
 			$("#app-container").load("templates/course.html", function () {
 				$("#course-header").html("Kurssin hederi");
-				var html = $("#reppu-data-container").find(".course-content").html();
+				//var html = $("#reppu-data-container").find(".course-content").html();
+				var html = "";
+				
+				$("#reppu-data-container [id^=section-]").each(function (index, item) {
+					var header = "<h2>" + $(item).find(".sectionname").text() + "</h2>";
+					var summary = "<div class='summary-container'>" + $(item).find(".summary").html() + "</div>";
+					var section = "<div class='section-container'>" + $(item).find(".section").html() + "</div>";
+					
+					html += header + summary + section;
+				});
+				
 				$("#course-content-container").html(html);
 			});
 		});
