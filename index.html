@@ -71,6 +71,8 @@
 
 <script>
 	$(document).ready(function () {
+		$("#reppu-data-container").html("");
+		
 		if (getUser() == undefined) {
 			$("#login-container").fadeIn();
 		} else {
@@ -110,7 +112,11 @@
 	
 	function startApp() {
 		$.get("http://reppu.lamk.fi", function (data) {
-			$("#reppu-data-container").html(data);
+			console.log("Inserting");
+			
+			$("#reppu-data-container").html($.parseHTML(data));
+			
+			console.log("Argh!");
 			
 			$("#app-container").fadeIn();
 			
