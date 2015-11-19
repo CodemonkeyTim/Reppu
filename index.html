@@ -8,6 +8,12 @@
 		
 		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap/bootstrap-theme.min.css" />
+		
+		<style>
+			#login-container, #app-container, #reppu-data-container {
+				display: none;
+			}
+		</style>
 	</head>
 	<body style="padding-top: 20px;">
 		<div id="login-container" class="container-fluid">
@@ -103,7 +109,9 @@
 	}
 	
 	function startApp() {
-		$("#reppu-data-container").load("http://reppu.lamk.fi", function () {
+		$.get("http://reppu.lamk.fi", function (data) {
+			$("#reppu-data-container").html(data);
+			
 			$("#app-container").fadeIn();
 			
 			addCoursesList();
@@ -118,9 +126,3 @@
 		});
 	}
 </script>
-
-<style>
-	#login-container, #app-container, #reppu-data-container {
-		display: none;
-	}
-</style>
