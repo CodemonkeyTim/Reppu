@@ -3,6 +3,7 @@
 	<head>
 		<title>Reppu app</title>
 		<script src="js/utils.js"></script>
+		<script src="js/views.js"></script>
 		<script src="js/lib/jquery-1.11.3.min.js"></script>
 		<script src="js/lib/bootstrap-3.3.5.min.js"></script>
 		
@@ -10,57 +11,47 @@
 		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap/bootstrap-theme.min.css" />
 		
 		<style>
-			#login-container, #app-container, #reppu-data-container {
+			#reppu-data-container {
 				display: none;
 			}
+			
+			body {
+				padding-top: 85px;
+			}
+			
+			.app-header {
+				font-size: 40px;
+			}
+			
+			#nav-next-btn, #nav-prev-btn {
+				margin-top: 10px;
+			}
+			
 		</style>
 	</head>
-	<body style="padding-top: 20px;">
-		<div id="login-container" class="container-fluid">
-			<div class="row">
-				<div class="col-lg-4 col-lg-offset-4">
-					<h1 class="text-center">Login</h1>
-					
-					<div class="row">
-						<div class="col-lg-12">
-							<input class="form-control" id="username-field" type="text" placeholder="Username" />
-						</div>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-3">
+						<button disabled id="nav-prev-btn" class="btn btn-lg btn-block btn-primary"><-</button>
 					</div>
 					
-					<br/>
-					
-					<div class="row">
-						<div class="col-lg-12">
-							<input class="form-control" id="password-field" type="password" placeholder="Password" />
-						</div>
+					<div class="col-lg-6 col-md-4 col-sm-4 col-xs-6">
+						<h1 class="text-center">ReppuApp</h1>
 					</div>
 					
-					<br />
-					
-					<div class="row">
-						<div class="col-lg-12">
-							<button id="login-btn" class="btn btn-lg btn-success btn-block">Login</button>
-						</div>
+					<!--
+					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-3">
+						<button id="nav-next-btn" class="btn btn-lg btn-block btn-primary">-></button>
 					</div>
+					-->
 				</div>
 			</div>
-		</div>
+		</nav>
 		
-		<div id="app-container" class="container-fluid">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="text-center">ReppuApp</h1>
-				</div>
-			</div>
+		<div id="app-container" class="container-fluid">	
 			
-			<!-- Course list -->
-			<div class="row">
-				<div class="col-lg-12">
-					<div id="course-list">
-					
-					</div>
-				</div>
-			</div>
 		</div>
 			
 		<div id="reppu-data-container">
@@ -71,64 +62,30 @@
 
 <script>
 	$(document).ready(function () {
-		$("#reppu-data-container").html("");
+		var browser = new ViewBrowser();
+		setBrowser(browser);
 		
 		if (getUser() == undefined) {
-			$("#login-container").fadeIn();
+			browser.browseTo("login");
 		} else {
-			doLogin(startApp);
+			browser.browseTo("courselist");
 		}
 		
-		$("#login-btn").click(function () {
-			var user = {};
-			
-			user.username = $("#username-field").val();
-			user.password = $("#password-field").val();
-			
-			saveUser(user);
-			
-			doLogin(startApp);
+		$("#nav-prev-btn").on("click", function () {
+			browser.browseToPrevious();
 		});
-	});
-	
-	function doLogin(callback) {
-		var fd = new FormData();
-		fd.append('username', getUser().username);
-		fd.append('password', getUser().password);
-
-		$.ajax({
-			url: 'https://reppu.lamk.fi/login/index.php',
-			data: fd,
-			processData: false,
-			contentType: false,
-			type: 'POST',
-			success: function(data) {
-				if (typeof (callback) == "function") {
-					callback();
-				}
-			}
-		});
-	}
-	
-	function startApp() {
-		$.get("http://reppu.lamk.fi", function (data) {
-			console.log("Inserting");
-			
-			$("#reppu-data-container").html($.parseHTML(data));
-			
-			console.log("Argh!");
-			
-			$("#app-container").fadeIn();
-			
-			addCoursesList();
-		});
-	}
-	
-	function addCoursesList() {
-		$("#course-list").html("");
 		
-		$("#reppu-data-container").find(".block_course_list li a").each(function (index, item) {
-			$("#course-list").append("<button class='btn btn-lg btn-block btn-info' data-href='" + $(item).attr("href") + "'>" + $(item).text()  + "</button>")
+		/*
+		$("#nav-next-btn").on("click", function () {
+			
 		});
-	}
+		*/
+	});
 </script>
+
+
+
+
+
+
+

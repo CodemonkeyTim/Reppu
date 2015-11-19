@@ -1,4 +1,4 @@
-function getUser() {	
+﻿function getUser() {	
 	try {
 		user = JSON.parse(localStorage.user);
 		
@@ -14,4 +14,14 @@ function getUser() {
 
 function saveUser(user) {
 	localStorage.user = JSON.stringify(user);
+}
+
+var variableForHoldingBrowserNyahNyah = undefined;
+
+function setBrowser(browser) {
+	variableForHoldingBrowserNyahNyah = browser;
+}
+
+function getBrowser() {
+	return variableForHoldingBrowserNyahNyah;
 }
