@@ -50,9 +50,9 @@
 			<!-- Course list -->
 			<div class="row">
 				<div class="col-lg-12">
-					<ul id="course-list">
+					<div id="course-list">
 					
-					</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -103,18 +103,18 @@
 	}
 	
 	function startApp() {
-		$("#reppu-data-container").load("http://reppu.lamk.fi");
-		
-		$("#app-container").fadeIn();
-		
-		addCoursesList();
+		$("#reppu-data-container").load("http://reppu.lamk.fi", function () {
+			$("#app-container").fadeIn();
+			
+			addCoursesList();
+		});
 	}
 	
 	function addCoursesList() {
 		$("#course-list").html("");
 		
 		$("#reppu-data-container").find(".block_course_list li a").each(function (index, item) {
-			$("#course-list").append("<li>" + $(item).text()  + "</li>")
+			$("#course-list").append("<button class='btn btn-lg btn-block btn-info' data-href='" + $(item).attr("href") + "'>" + $(item).text()  + "</button>")
 		});
 	}
 </script>
