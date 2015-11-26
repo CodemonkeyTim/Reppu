@@ -67,16 +67,16 @@ function CourseView (params) {
 				var html = "";
 				
 				$("#reppu-data-container [id^=section-]").each(function (index, item) {
-					var header = "<h2>" + $(item).find(".sectionname").text() + "</h2>";
+					var header = "<h2 class='text-center'>" + $(item).find(".sectionname").text() + "</h2>";
 					var summary = "<div class='summary-container'>" + $(item).find(".summary").html() + "</div>";
 					var section = "<div class='section-container'>";
 
 					$(item).find("li.activity").each(function (index, activity) {
-						var header = $(activity).find(".instancename").text();
+						var btnText = $(activity).find(".instancename").text();
 						var linkHref = $(activity).find("a").attr("href");
 						var imgSrc = $(activity).find("img").attr("src");
 						
-						section += "<button class='btn btn-info btn-block btn-lg' data-href='" + linkHref	+ "'><img src='" + imgSrc + "' /><span>" + header + "</span></button>";
+						section += "<button class='btn btn-info btn-block btn-lg' data-href='" + linkHref	+ "'><img src='" + imgSrc + "' /><span>" + btnText + "</span></button>";
 					});
 					
 					section += "</div>";
