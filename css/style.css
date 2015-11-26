@@ -6,3 +6,7 @@
 	white-space:normal !important;
     max-width:100%;
 }
+
+.section-container button.btn {
+	text-align: left;
+}

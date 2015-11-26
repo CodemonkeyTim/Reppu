@@ -50,9 +50,16 @@
 				</div>
 			</div>
 		</nav>
+		<div class="container-fluid" id="loader-container">
+			<div class="row" id="loader-img-wrapper">
+				<div class="col-xs-4 col-xs-offset-4">
+					<img src="gfx/ajax-loader.gif" style="width: 100%;margin-top: 100px;" />
+				</div>
+			</div>
+		</div>
 		
 		<div id="app-container" class="container-fluid">	
-			
+		
 		</div>
 			
 		<br />
@@ -74,7 +81,24 @@
 		if (getUser() == undefined) {
 			browser.browseTo("login");
 		} else {
-			browser.browseTo("courselist");
+		
+			var fd = new FormData();
+			fd.append('username', getUser().username);
+			fd.append('password', getUser().password);
+		
+			$.ajax({
+				url: 'https://reppu.lamk.fi/login/index.php',
+				data: fd,
+				processData: false,
+				contentType: false,
+				type: 'POST',
+				success: function(data) {
+					browser.browseTo("courselist");
+				}, 
+				error: function () {
+					$("#invalid-credentials").fadeIn();
+				}
+			});
 		}
 		
 		$("#nav-prev-btn").on("click", function () {

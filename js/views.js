@@ -18,6 +18,7 @@
 			$("#reppu-data-container").html($.parseHTML(data));
 			
 			$("#app-container").load("templates/courselist.html", function () {
+				
 				$("#reppu-data-container").find(".block_course_list li a").each(function (index, item) {
 					$("#course-list").append("<button class='btn btn-lg btn-block btn-info course-item' data-href='" + $(item).attr("href") + "'>" + $(item).text()  + "</button>")
 				});
@@ -29,6 +30,8 @@
 					
 					getBrowser().browseTo("course", {courseId: courseId});
 				});
+				
+				$("#loader-container").hide();
 			});
 		});
 	}
@@ -85,6 +88,7 @@ function CourseView (params) {
 				});
 				
 				$("#course-content-container").html(html);
+				$("#loader-container").hide();
 			});
 		});
 		
@@ -106,6 +110,8 @@ function LoginView (params) {
 		$("#reppu-data-container").html("");
 		
 		$("#app-container").load("templates/login.html", function () {
+			$("#loader-container").hide();
+			
 			$("#login-btn").click(function () {
 				var user = {};
 				
@@ -136,12 +142,16 @@ function LoginView (params) {
 	}
 }
 
+//************** GENERAL VIEW OBJECTS *************//
+
 function ViewBrowser() {
 	var self = this;
 	
 	this.activeView = undefined;
 	
 	this.browseTo = function(viewName, params) {
+		$("#loader-container").show();
+		
 		var view = viewFactory(viewName, params);
 		
 		if (viewName == "login") {
@@ -161,6 +171,8 @@ function ViewBrowser() {
 	}
 	
 	this.browseToPrevious = function () {
+		$("#loader-container").show();
+		
 		if (self.activeView != undefined && self.activeView.prev != undefined) {
 			self.activeView = self.activeView.prev;
 			self.activeView.init();
