@@ -62,29 +62,41 @@ function CourseView (params) {
 		}
 		
 		$.get(self.dataSourceUrl + self.courseId, function (data) {
-			$("#reppu-data-container").html($.parseHTML(data));
+			var reppuHtml = $.parseHTML(data);
+			
+			$("#reppu-data-container").html(reppuHtml);
+			$("#reppu-data-container").find("link").remove(); //Not importing css from reppu. Yuck!
+			$("#reppu-data-container").find("script").remove(); //Nor scripts.
 			
 			$("#app-container").load("templates/course.html", function () {
-				$("#course-header").html("Kurssin hederi");
+				$("#course-header").html($("#reppu-data-container").find("h1.coursetitle").text());
 				//var html = $("#reppu-data-container").find(".course-content").html();
 				var html = "";
 				
 				$("#reppu-data-container [id^=section-]").each(function (index, item) {
-					var header = "<h2 class='text-center'>" + $(item).find(".sectionname").text() + "</h2>";
-					var summary = "<div class='summary-container'>" + $(item).find(".summary").html() + "</div>";
-					var section = "<div class='section-container'>";
+					if ($(item).hasClass("section-summary")) {
+						html += "<button class='btn btn-block btn-lg btn-warning' data-href='" + $(item).find(".section-title a").attr("href") + "'>" + $(item).find(".section-title a").text() + "</button>";
+					} else {
+						var header = "<h2 class='text-center'>" + $(item).find(".sectionname").text() + "</h2>";
+						var summary = "<div class='summary-container'>" + $(item).find(".summary").html() + "</div>";
+						var section = "<div class='section-container'>";
 
-					$(item).find("li.activity").each(function (index, activity) {
-						var btnText = $(activity).find(".instancename").text();
-						var linkHref = $(activity).find("a").attr("href");
-						var imgSrc = $(activity).find("img").attr("src");
+						$(item).find("li.activity").each(function (index, activity) {
+							if ($(activity).hasClass("label")) {
+								section += $(activity).html();
+							} else {
+								var btnText = $(activity).find(".instancename").clone().children().remove().end().text(); //Looks complicated but it's just to get the text of an element and not the text of its child elements
+								var linkHref = $(activity).find("a").attr("href");
+								var imgSrc = $(activity).find("img").attr("src");
+								
+								section += "<button class='btn btn-info btn-block btn-lg' data-href='" + linkHref	+ "'><img src='" + imgSrc + "' /><span>" + btnText + "</span></button>";
+							}
+						});
 						
-						section += "<button class='btn btn-info btn-block btn-lg' data-href='" + linkHref	+ "'><img src='" + imgSrc + "' /><span>" + btnText + "</span></button>";
-					});
-					
-					section += "</div>";
-					
-					html += header + summary + section;
+						section += "</div>";
+						
+						html += header + summary + section;
+					}
 				});
 				
 				$("#course-content-container").html(html);
