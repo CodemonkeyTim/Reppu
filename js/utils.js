@@ -31,17 +31,26 @@ function getBrowser() {
 }
 
 function fileDownloadAndShow(fileUrl, fileName) {
+	alert("Into download: " + fileUrl + " - " + fileName);
+	
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function () {
 		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, function () {
+			alert("Into getFile.");
+			
 			var sPath = fileEntry.fullPath.replace("dummy.html","");
 			var fileTransfer = new FileTransfer();
 			fileEntry.remove();
 
+			alert("fileEntry remover, fileTransfer created.");
+			
 			fileTransfer.download(fileUrl, sPath + fileName, function(theFile) {
-				console.log("download complete: " + theFile.toURI());
+				alert("Downloaded succssfully. Trying to open...");
 				window.plugins.fileOpener.open(theFile.toURI());
+				alert("Should have opened the file...");
 			},
 			function(error) {
+				alert("Error in download.");
+				
 				console.log("download error source " + error.source);
 				console.log("download error target " + error.target);
 				console.log("upload error code: " + error.code);
@@ -55,5 +64,5 @@ function fileDownloadAndShow(fileUrl, fileName) {
 }
 
 function fileDownload(event) {
-	console.log("File download error: " + evt.target.error.code);
+	alert("File download error: " + evt.target.error.code);
 }
