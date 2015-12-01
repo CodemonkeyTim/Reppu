@@ -55,10 +55,10 @@ function fileDownloadAndShow(fileUrl, fileName) {
 		 
 		fileTransfer.download(
 			fileUrl,
-			sPath,
+			sPath + fileName,
 			function (entry) {
 				alert("Opening file!");
-				window.plugins.fileOpener.open(entry.fullPath);
+				window.plugins.fileOpener.open(entry.toURL());
 			},
 			function (error) {
 				alert("Download error source: " + error.source);
