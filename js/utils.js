@@ -57,6 +57,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 			fileUrl,
 			sPath,
 			function (entry) {
+				window.entree = entry;
 				alert("Opening file!");
 				alert(entry.fullPath);
 				alert(entry.toURL());
