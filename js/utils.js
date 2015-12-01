@@ -61,7 +61,9 @@ function fileDownloadAndShow(fileUrl, fileName) {
 				window.plugins.fileOpener.open(entry.fullPath);
 			},
 			function (error) {
-				alert("File download failed");
+				alert("Download error source: " + error.source);
+				alert("Download error target: " + error.target);
+				alert("Upload error code: " + error.code);
 			}
 		)
 	}
