@@ -30,7 +30,7 @@ function getBrowser() {
 	return variableForHoldingBrowserNyahNyah;
 }
 
-function fileDownload(fileUrl, fileName) {
+function fileDownloadAndShow(fileUrl, fileName) {
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function () {
 		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, function () {
 			var sPath = fileEntry.fullPath.replace("dummy.html","");
@@ -39,7 +39,7 @@ function fileDownload(fileUrl, fileName) {
 
 			fileTransfer.download(fileUrl, sPath + fileName, function(theFile) {
 				console.log("download complete: " + theFile.toURI());
-				
+				window.plugins.fileOpener.open(theFile.toURI());
 			},
 			function(error) {
 				console.log("download error source " + error.source);

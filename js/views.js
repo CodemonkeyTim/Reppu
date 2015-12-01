@@ -126,8 +126,7 @@ function CourseView (params) {
 							*/
 							
 							$(item).on('click', function () {
-								window.open("http://www.google.com", "_blank", "location=no");
-								//fileDownload(fileUrl, fileName);
+								fileDownloadAndShow(fileUrl, fileName);
 							});
 						});
 					}
