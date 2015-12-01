@@ -58,7 +58,9 @@ function fileDownloadAndShow(fileUrl, fileName) {
 			sPath,
 			function (entry) {
 				alert("Opening file!");
-				window.plugins.fileOpener.open(entry.toURL());
+				alert(entry.fullPath);
+				alert(entry.toURL);
+				window.plugins.fileOpener.open(sPath);
 			},
 			function (error) {
 				alert("Download error source: " + error.source);
