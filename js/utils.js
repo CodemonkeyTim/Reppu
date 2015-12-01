@@ -64,6 +64,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 				alert("Download error source: " + error.source);
 				alert("Download error target: " + error.target);
 				alert("Upload error code: " + error.code);
+				alert("Http status code: " + error.http_status);
 			}
 		)
 	}
