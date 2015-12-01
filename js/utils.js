@@ -38,7 +38,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 	function gotFileSystem(fileSystem) {
 		alert("Got filesystem!");
 	
-		fileSystem.root.getFile("dummy.html", {create: true, exclusive: true}, gotFileEntry, alertFail);
+		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, gotFileEntry, alertFail);
 	}
 
 	function gotFileEntry(fileEntry) {
