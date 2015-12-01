@@ -33,38 +33,34 @@ function getBrowser() {
 function fileDownloadAndShow(fileUrl, fileName) {
 	alert("Into download: " + fileUrl + " - " + fileName);
 	
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function () {
-		alert("Into success function of requestFileSystem");
-		
-		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, function () {
-			alert("Into getFile.");
-			
-			var sPath = fileEntry.fullPath.replace("dummy.html","");
-			var fileTransfer = new FileTransfer();
-			fileEntry.remove();
-
-			alert("fileEntry remover, fileTransfer created.");
-			
-			fileTransfer.download(fileUrl, sPath + fileName, function(theFile) {
-				alert("Downloaded succssfully. Trying to open...");
-				window.plugins.fileOpener.open(theFile.toURI());
-				alert("Should have opened the file...");
-			},
-			function(error) {
-				alert("Error in download.");
-				
-				console.log("download error source " + error.source);
-				console.log("download error target " + error.target);
-				console.log("upload error code: " + error.code);
-			},
-			fileDownloadFail
-			);
-		}, 
-		fileDownloadFail
-		);
-	});
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, alertFail);
 }
 
-function fileDownloadFail(event) {
-	alert("File download error: " + evt.target.error.code);
+function gotFileSystem(fileSystem) {
+	alert("Got filesystem!");
+	
+	fileSystem.root.getFile("readme.txt", null, gotFileEntry, alertFail);
+}
+
+function gotFileEntry(fileEntry) {
+	 var sPath = fileEntry.fullPath.replace("dummy.html","");
+     fileEntry.remove();
+	 
+	 var fileTransfer = new FileTransfer();
+	 
+	fileTransfer.download(
+		fileUrl,
+		sPath,
+		function (entry) {
+			alert("Opening file!");
+			window.plugins.fileOpener.open(entry.fullPath);
+		},
+		function (error) {
+			alert("File download failed");
+		}
+	)
+}
+
+function alertFail(event) {
+	alert("Failed getting something: " + event.target.error.code);
 }
