@@ -33,7 +33,22 @@ function getBrowser() {
 function fileDownloadAndShow(fileUrl, fileName) {
 	alert("Into download: " + fileUrl + " - " + fileName);
 	
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, alertFail);
+	var ft = new FileTransfer();
+	
+	ft.download(
+		fileUrl,
+		"/",
+		function (entry) {
+			alert("Opening file!");
+			window.plugins.fileOpener.open(entry.fullPath);
+		},
+		function (error) {
+			alert("Failed to download");
+		}
+	)
+	
+	
+	//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, alertFail);
 }
 
 function gotFileSystem(fileSystem) {
