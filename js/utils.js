@@ -43,10 +43,14 @@ function gotFileSystem(fileSystem) {
 }
 
 function gotFileEntry(fileEntry) {
-	 var sPath = fileEntry.fullPath.replace("dummy.html","");
-     fileEntry.remove();
+	alert("Got file entry!");
 	 
-	 var fileTransfer = new FileTransfer();
+	var sPath = fileEntry.fullPath.replace("dummy.html","");
+    fileEntry.remove();
+	 
+	var fileTransfer = new FileTransfer();
+	 
+	alert("Beginning download...");
 	 
 	fileTransfer.download(
 		fileUrl,
