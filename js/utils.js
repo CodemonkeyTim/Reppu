@@ -33,55 +33,40 @@ function getBrowser() {
 function fileDownloadAndShow(fileUrl, fileName) {
 	alert("Into download: " + fileUrl + " - " + fileName);
 	
-	var ft = new FileTransfer();
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, alertFail);
 	
-	ft.download(
-		fileUrl,
-		"/",
-		function (entry) {
-			alert("Opening file!");
-			window.plugins.fileOpener.open(entry.fullPath);
-		},
-		function (error) {
-			alert("Failed to download");
-		}
-	)
+	function gotFileSystem(fileSystem) {
+		alert("Got filesystem!");
 	
-	
-	//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, alertFail);
-}
+		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, gotFileEntry, alertFail);
+	}
 
-function gotFileSystem(fileSystem) {
-	alert("Got filesystem!");
-	
-	fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, gotFileEntry, alertFail);
-}
+	function gotFileEntry(fileEntry) {
+		alert("Got file entry!");
+		 
+		var sPath = fileEntry.fullPath.replace("dummy.html","");
+		fileEntry.remove();
+		 
+		var fileTransfer = new FileTransfer();
+		 
+		alert("Beginning download...");
+		alert(sPath);
+		alert(fileUrl);
+		 
+		fileTransfer.download(
+			fileUrl,
+			sPath,
+			function (entry) {
+				alert("Opening file!");
+				window.plugins.fileOpener.open(entry.fullPath);
+			},
+			function (error) {
+				alert("File download failed");
+			}
+		)
+	}
 
-function gotFileEntry(fileEntry) {
-	alert("Got file entry!");
-	 
-	var sPath = fileEntry.fullPath.replace("dummy.html","");
-	fileEntry.remove();
-	 
-	var fileTransfer = new FileTransfer();
-	 
-	alert("Beginning download...");
-	alert(sPath);
-	alert(fileUrl);
-	 
-	fileTransfer.download(
-		fileUrl,
-		sPath,
-		function (entry) {
-			alert("Opening file!");
-			window.plugins.fileOpener.open(entry.fullPath);
-		},
-		function (error) {
-			alert("File download failed");
-		}
-	)
-}
-
-function alertFail(event) {
-	alert("Failed getting something: " + event);
+	function alertFail(event) {
+		alert("Failed getting something: " + event);
+	}
 }
