@@ -60,7 +60,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 				alert("Opening file!");
 				alert(entry.fullPath);
 				alert(entry.toURL());
-				window.plugins.fileOpener.open(sPath);
+				window.plugins.fileOpener.open(entry.toURL());
 			},
 			function (error) {
 				alert("Download error source: " + error.source);
