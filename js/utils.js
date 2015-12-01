@@ -34,6 +34,8 @@ function fileDownloadAndShow(fileUrl, fileName) {
 	alert("Into download: " + fileUrl + " - " + fileName);
 	
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function () {
+		alert("Into success function of requestFileSystem");
+		
 		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, function () {
 			alert("Into getFile.");
 			
