@@ -195,6 +195,7 @@ function ViewBrowser() {
 		var view = viewFactory(viewName, params);
 		
 		if (viewName == "login") {
+			$("#nav-user-btn").attr("disabled", "true");
 			view.prev = undefined;
 			view.init();
 			return;
@@ -205,6 +206,7 @@ function ViewBrowser() {
 		}
 		
 		$("#nav-prev-btn").removeAttr("disabled");
+		$("#nav-user-btn").removeAttr("disabled");
 		
 		self.activeView = view;
 		view.init();

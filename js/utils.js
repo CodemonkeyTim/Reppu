@@ -16,6 +16,10 @@ function saveUser(user) {
 	localStorage.user = JSON.stringify(user);
 }
 
+function destroyUser() {
+	localStorage.user = "";
+}
+
 var variableForHoldingBrowserNyahNyah = undefined;
 
 function setBrowser(browser) {

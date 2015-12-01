@@ -28,6 +28,10 @@
 				margin-top: 10px;
 			}
 			
+			#nav-user-btn {
+				margin-top: 10px;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -42,11 +46,19 @@
 						<h1 class="text-center">ReppuApp</h1>
 					</div>
 					
-					<!--
 					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-3">
-						<button id="nav-next-btn" class="btn btn-lg btn-block btn-primary">-></button>
+						<!-- <button id="nav-next-btn" class="btn btn-lg btn-block btn-primary">-></button> -->
+						<div class="dropdown">
+							<button disabled id="nav-user-btn" class="btn btn-lg btn-block btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								<i class="glyphicon glyphicon-user"></i>
+							</button>
+							<ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+								<li>
+									<a href="javascript:void(0);" id="logout-btn">Log Out</a>
+								</li>
+							</ul>
+						</div>
 					</div>
-					-->
 				</div>
 			</div>
 		</nav>
@@ -94,6 +106,15 @@
 				type: 'POST',
 				success: function(data) {
 					browser.browseTo("courselist");
+					var user = getUser();
+					
+					//TODO: Add sessionkey for logout... friggin Reppu, can't even logout without knowing your sessionkey....
+					/*
+					var sessionKey;
+					
+					user.sessionKey = sessionKey;
+					saveUser(user);
+					*/
 				}, 
 				error: function () {
 					$("#invalid-credentials").fadeIn();
@@ -110,6 +131,25 @@
 			
 		});
 		*/
+		
+		$("#logout-btn").on('click', function () {
+			//Logouts locally, Reppu need sessionkey for terminating server side session...
+			destroyUser();
+			browser.browseTo("login");
+			
+			
+			//TODO: Add the sessionkey to logout.
+			/*
+			$.ajax({
+				url: "http://reppu.lamk.fi/login/logout.php?sessionKey=xxx",
+				method: "POST",
+				success: function (response) {
+					destroyUser();
+					browser.browseTo("login");
+				}
+			});
+			*/
+		});
 	});
 </script>
 
