@@ -7,6 +7,10 @@
     max-width:100%;
 }
 
-.section-container button.btn {
+.section-container .btn {
 	text-align: left;
+}
+
+.file-response {
+	display: none;
 }

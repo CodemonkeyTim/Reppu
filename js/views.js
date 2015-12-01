@@ -75,7 +75,7 @@ function CourseView (params) {
 				
 				$("#reppu-data-container [id^=section-]").each(function (index, item) {
 					if ($(item).hasClass("section-summary")) {
-						html += "<button class='btn btn-block btn-lg btn-warning' data-href='" + $(item).find(".section-title a").attr("href") + "'>" + $(item).find(".section-title a").text() + "</button>";
+						//html += "<button class='btn btn-block btn-lg btn-warning' data-href='" + $(item).find(".section-title a").attr("href") + "'>" + $(item).find(".section-title a").text() + "</button>";
 					} else {
 						var header = "<h2 class='text-center'>" + $(item).find(".sectionname").text() + "</h2>";
 						var summary = "<div class='summary-container'>" + $(item).find(".summary").html() + "</div>";
@@ -88,8 +88,9 @@ function CourseView (params) {
 								var btnText = $(activity).find(".instancename").clone().children().remove().end().text(); //Looks complicated but it's just to get the text of an element and not the text of its child elements
 								var linkHref = $(activity).find("a").attr("href");
 								var imgSrc = $(activity).find("img").attr("src");
+								var type = $(activity).find(".accesshide").first().text().trim();
 								
-								section += "<button class='btn btn-info btn-block btn-lg' data-href='" + linkHref	+ "'><img src='" + imgSrc + "' /><span>" + btnText + "</span></button>";
+								section += "<button class='btn btn-info btn-block btn-lg' data-type='" + type + "' data-href='" + linkHref	+ "'><img src='" + imgSrc + "' /><span>" + btnText + "</span></button>";
 							}
 						});
 						
@@ -101,6 +102,33 @@ function CourseView (params) {
 				
 				$("#course-content-container").html(html);
 				$("#loader-container").hide();
+				
+				$(".btn").each(function (index, item) {
+					var type = $(item).data("type");
+					
+					if (type == "Tiedosto" || type == "File") {
+						$.get($(item).data("href"), function (response) {
+							console.log(index);
+							
+							var html = $.parseHTML(response);
+							
+							$("body").append("<div class='file-response' id='file-data-" + index + "' style='display: none;'></div>");
+							
+							var dataElement = $(".file-response#file-data-" + index);
+							
+							dataElement.html(html);
+							
+							dataElement.find("link").remove();
+							dataElement.find("script").remove();
+							var fileUrl = dataElement.find(".resourceworkaround a").attr("href");
+							
+							var originalHeader = $(item).html();
+							
+							$(item).replaceWith("<a class='btn btn-block btn-info btn-lg text-left' href='" + fileUrl + "' download>" + originalHeader + "</a>");
+						});
+					}
+					
+				});
 			});
 		});
 		
