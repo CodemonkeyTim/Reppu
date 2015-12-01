@@ -121,10 +121,36 @@ function CourseView (params) {
 							dataElement.find("link").remove();
 							dataElement.find("script").remove();
 							var fileUrl = dataElement.find(".resourceworkaround a").attr("href");
+							var fileName = fileUrl.substr(fileUrl.lastIndexOf("/") + 1, fileUrl.length);
 							
-							var originalHeader = $(item).html();
-							
-							$(item).replaceWith("<a class='btn btn-block btn-info btn-lg text-left' href='" + fileUrl + "' download>" + originalHeader + "</a>");
+							$(item).on('click', function () {
+								window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+									function onFileSystemSuccess(fileSystem) {
+										fileSystem.root.getFile(
+										"dummy.html", {create: true, exclusive: false}, 
+										function gotFileEntry(fileEntry) {
+											var sPath = fileEntry.fullPath.replace("dummy.html","");
+											var fileTransfer = new FileTransfer();
+											fileEntry.remove();
+
+											fileTransfer.download(
+												fileUrl,
+												sPath + fileName,
+												function(theFile) {
+													console.log("download complete: " + theFile.toURI());
+													showLink(theFile.toURI());
+												},
+												function(error) {
+													console.log("download error source " + error.source);
+													console.log("download error target " + error.target);
+													console.log("upload error code: " + error.code);
+												}
+											);
+										}, fail);
+									}, fail);
+								};
+								}
+							});
 						});
 					}
 					
