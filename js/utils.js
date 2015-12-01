@@ -37,16 +37,23 @@ function fileDownload(fileUrl, fileName) {
 			var fileTransfer = new FileTransfer();
 			fileEntry.remove();
 
-			fileTransfer.download(fileUrl, sPath + fileName, 
-				function(theFile) {
-					console.log("download complete: " + theFile.toURI());
-				},
-				function(error) {
-					console.log("download error source " + error.source);
-					console.log("download error target " + error.target);
-					console.log("upload error code: " + error.code);
-				}
+			fileTransfer.download(fileUrl, sPath + fileName, function(theFile) {
+				console.log("download complete: " + theFile.toURI());
+				
+			},
+			function(error) {
+				console.log("download error source " + error.source);
+				console.log("download error target " + error.target);
+				console.log("upload error code: " + error.code);
+			},
+			fileDownloadFail
 			);
-		});
+		}, 
+		fileDownloadFail
+		);
 	});
+}
+
+function fileDownload(event) {
+	console.log("File download error: " + evt.target.error.code);
 }

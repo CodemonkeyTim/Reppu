@@ -107,6 +107,9 @@ function CourseView (params) {
 					var type = $(item).data("type");
 					
 					if (type == "Tiedosto" || type == "File") {
+						window.open("www.google.com", "_blank", "location=no");
+						
+						/*
 						$.get($(item).data("href"), function (response) {
 							console.log(index);
 							
@@ -127,6 +130,7 @@ function CourseView (params) {
 								fileDownload(fileUrl, fileName)
 							});
 						});
+						*/
 					}
 				});
 			});

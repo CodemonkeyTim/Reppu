@@ -93,7 +93,6 @@
 		if (getUser() == undefined) {
 			browser.browseTo("login");
 		} else {
-		
 			var fd = new FormData();
 			fd.append('username', getUser().username);
 			fd.append('password', getUser().password);
