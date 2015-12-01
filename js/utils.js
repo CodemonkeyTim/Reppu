@@ -65,6 +65,6 @@ function fileDownloadAndShow(fileUrl, fileName) {
 	});
 }
 
-function fileDownload(event) {
+function fileDownloadFail(event) {
 	alert("File download error: " + evt.target.error.code);
 }
