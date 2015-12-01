@@ -59,7 +59,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 			function (entry) {
 				alert("Opening file!");
 				alert(entry.fullPath);
-				alert(entry.toURL);
+				alert(entry.toURL());
 				window.plugins.fileOpener.open(sPath);
 			},
 			function (error) {
