@@ -39,7 +39,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 function gotFileSystem(fileSystem) {
 	alert("Got filesystem!");
 	
-	fileSystem.root.getFile("readme.txt", null, gotFileEntry, alertFail);
+	fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, gotFileEntry, alertFail);
 }
 
 function gotFileEntry(fileEntry) {
@@ -66,5 +66,5 @@ function gotFileEntry(fileEntry) {
 }
 
 function alertFail(event) {
-	alert("Failed getting something: " + event.target.error.code);
+	alert("Failed getting something: " + event);
 }
