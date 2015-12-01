@@ -55,7 +55,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 		 
 		fileTransfer.download(
 			fileUrl,
-			sPath,
+			"file:///storage/extSdCard/Android/data/com.vaintee1.reppu/files/" + fileName,
 			function (entry) {
 				window.entree = entry;
 				alert("Opening file!");
