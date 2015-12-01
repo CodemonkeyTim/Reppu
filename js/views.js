@@ -107,8 +107,7 @@ function CourseView (params) {
 					var type = $(item).data("type");
 					
 					if (type == "Tiedosto" || type == "File") {
-						$.get($(item).data("href"), function (response) {	
-							/*
+						$.get($(item).data("href"), function (response) {
 							console.log(index);
 							
 							var html = $.parseHTML(response);
@@ -123,7 +122,6 @@ function CourseView (params) {
 							dataElement.find("script").remove();
 							var fileUrl = dataElement.find(".resourceworkaround a").attr("href");
 							var fileName = fileUrl.substr(fileUrl.lastIndexOf("/") + 1, fileUrl.length);
-							*/
 							
 							$(item).on('click', function () {
 								fileDownloadAndShow(fileUrl, fileName);
