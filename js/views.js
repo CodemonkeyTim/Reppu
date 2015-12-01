@@ -107,10 +107,8 @@ function CourseView (params) {
 					var type = $(item).data("type");
 					
 					if (type == "Tiedosto" || type == "File") {
-						window.open("www.google.com", "_blank", "location=no");
-						
-						/*
-						$.get($(item).data("href"), function (response) {
+						$.get($(item).data("href"), function (response) {	
+							/*
 							console.log(index);
 							
 							var html = $.parseHTML(response);
@@ -125,12 +123,13 @@ function CourseView (params) {
 							dataElement.find("script").remove();
 							var fileUrl = dataElement.find(".resourceworkaround a").attr("href");
 							var fileName = fileUrl.substr(fileUrl.lastIndexOf("/") + 1, fileUrl.length);
+							*/
 							
 							$(item).on('click', function () {
-								fileDownload(fileUrl, fileName)
+								window.open("http://www.google.com", "_blank", "location=no");
+								//fileDownload(fileUrl, fileName);
 							});
 						});
-						*/
 					}
 				});
 			});
