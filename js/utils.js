@@ -44,7 +44,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 	function gotFileEntry(fileEntry) {
 		alert("Got file entry!");
 		 
-		var sPath = fileEntry.fullPath.replace("dummy.html","");
+		var sPath = fileEntry.fullPath.replace("dummy.html", fileName);
 		fileEntry.remove();
 		 
 		var fileTransfer = new FileTransfer();
@@ -55,7 +55,7 @@ function fileDownloadAndShow(fileUrl, fileName) {
 		 
 		fileTransfer.download(
 			fileUrl,
-			sPath + fileName,
+			sPath,
 			function (entry) {
 				alert("Opening file!");
 				window.plugins.fileOpener.open(entry.toURL());
