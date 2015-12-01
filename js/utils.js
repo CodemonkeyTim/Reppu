@@ -46,11 +46,13 @@ function gotFileEntry(fileEntry) {
 	alert("Got file entry!");
 	 
 	var sPath = fileEntry.fullPath.replace("dummy.html","");
-    fileEntry.remove();
+	fileEntry.remove();
 	 
 	var fileTransfer = new FileTransfer();
 	 
 	alert("Beginning download...");
+	alert(sPath);
+	alert(fileUrl);
 	 
 	fileTransfer.download(
 		fileUrl,
