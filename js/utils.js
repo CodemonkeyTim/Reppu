@@ -31,36 +31,23 @@ function getBrowser() {
 }
 
 function fileDownloadAndShow(fileUrl, fileName) {
-	alert("Into download: " + fileUrl + " - " + fileName);
-	
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, alertFail);
 	
 	function gotFileSystem(fileSystem) {
-		alert("Got filesystem!");
-	
 		fileSystem.root.getFile("dummy.html", {create: true, exclusive: false}, gotFileEntry, alertFail);
 	}
 
 	function gotFileEntry(fileEntry) {
-		alert("Got file entry!");
-		 
 		var sPath = fileEntry.nativeURL.replace("dummy.html", fileName);
 		fileEntry.remove();
 		 
 		var fileTransfer = new FileTransfer();
-		 
-		alert("Beginning download...");
-		alert(sPath);
-		alert(fileUrl);
 		 
 		fileTransfer.download(
 			fileUrl,
 			"file:///storage/extSdCard/Android/data/com.vaintee1.reppu/files/" + fileName,
 			function (entry) {
 				window.entree = entry;
-				alert("Opening file!");
-				alert(entry.fullPath);
-				alert(entry.toURL());
 				window.plugins.fileOpener.open(entry.toURL());
 			},
 			function (error) {
